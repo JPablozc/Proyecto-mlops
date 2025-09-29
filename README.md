@@ -2,6 +2,8 @@
 ### Por: Juan Pablo Zapata Chavarriaga
 ### Universidad de Medellín
 
+---
+
 ## 1. Contexto y Motivación
 La obesidad es un problema de salud pública a nivel mundial, asociado con enfermedades crónicas como diabetes tipo 2, hipertensión y enfermedades cardiovasculares.  
 Identificar tempranamente factores de riesgo a partir de hábitos alimenticios y actividad física puede ayudar a diseñar programas de prevención y políticas de salud.
@@ -48,6 +50,11 @@ Construir un modelo de machine learning que, a partir de las variables de hábit
    - Análisis descriptivo de las variables.  
    - Identificación de patrones y relaciones entre hábitos y niveles de obesidad.  
    - Detección de valores atípicos y revisión de distribuciones.  
+   - **Análisis de correlaciones mixtas:**  
+     - Pearson/Spearman para variables numéricas.  
+     - Cramér’s V para variables categóricas.  
+     - Correlation Ratio y Mutual Information para relaciones mixtas.  
+   - **Heatmap extendido** que combina numéricas y categóricas en una sola matriz de correlación.  
 
 2. **Preprocesamiento:**  
    - Codificación de variables categóricas.  
