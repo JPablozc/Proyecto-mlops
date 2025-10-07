@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/juanp/Proyecto-mlops/mlruns/182094459218767486/92d786c55d9c4041b856e92ba138f250/artifacts
+end_time: 1759802803356
+entry_point_name: ''
+experiment_id: '182094459218767486'
+lifecycle_stage: active
+run_id: 92d786c55d9c4041b856e92ba138f250
+run_name: xgb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759802799612
+status: 3
+tags: []
+user_id: juanp

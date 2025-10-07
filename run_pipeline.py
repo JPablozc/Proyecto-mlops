@@ -21,4 +21,4 @@ def run(cmd: str):
 if __name__ == "__main__":
     for step in STEPS:
         run(step)
-    print("\n🚀 Pipeline completo OK")
+    print("\n Pipeline completo OK")

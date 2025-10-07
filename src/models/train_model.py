@@ -1,13 +1,15 @@
 # src/models/train_model.py
 """
-Entrenamiento de modelos (RandomForest + XGBoost)
-- Usa LabelEncoder para convertir clases string a enteros
-- Guarda modelo + encoder en un bundle .joblib
+Entrenamiento de modelos con MLflow Tracking
+Registra hiperparámetros, métricas y artefactos.
 """
-import joblib, json
+import joblib
+import json
 import pandas as pd
 import numpy as np
 from pathlib import Path
+import mlflow
+import mlflow.sklearn
 
 from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
 from sklearn.compose import ColumnTransformer
@@ -21,11 +23,13 @@ from xgboost import XGBClassifier
 from src.config import PROCESSED_CSV, MODEL_PATH, METRICS_JSON, RANDOM_STATE, TEST_SIZE, N_JOBS
 from src.utils import ensure_dirs
 
+
 def infer_column_types(df: pd.DataFrame):
     features = df.drop(columns=["target"])
     num_cols = features.select_dtypes(include=[np.number]).columns.tolist()
     cat_cols = [c for c in features.columns if c not in num_cols]
     return num_cols, cat_cols
+
 
 def build_preprocessor(num_cols, cat_cols):
     num_tf = Pipeline([("scaler", StandardScaler())])
@@ -35,10 +39,11 @@ def build_preprocessor(num_cols, cat_cols):
         ("cat", cat_tf, cat_cols)
     ])
 
+
 def main():
     ensure_dirs(Path(MODEL_PATH).parent, Path(METRICS_JSON).parent)
-    df = pd.read_csv(PROCESSED_CSV)
 
+    df = pd.read_csv(PROCESSED_CSV)
     y_str = df["target"]
     X = df.drop(columns=["target"])
 
@@ -61,9 +66,14 @@ def main():
         "xgb": (xgb, {"clf__n_estimators": [200, 400], "clf__max_depth": [4, 6]})
     }
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=TEST_SIZE, random_state=RANDOM_STATE)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, stratify=y, test_size=TEST_SIZE, random_state=RANDOM_STATE
+    )
 
-    best_name, best_pipe, best_metrics = None, None, None
+    mlflow.set_tracking_uri("mlruns")
+    mlflow.set_experiment("obesity_prediction")
+
+    best_model, best_metrics = None, None
 
     for name, (clf, grid) in models.items():
         pipe = Pipeline([("pre", preprocessor), ("clf", clf)])
@@ -74,29 +84,34 @@ def main():
         y_pred = search.best_estimator_.predict(X_test)
         acc = accuracy_score(y_test, y_pred)
         f1m = f1_score(y_test, y_pred, average="macro")
+        report = classification_report(y_test, y_pred, output_dict=True)
 
-        y_test_lbl = le.inverse_transform(y_test)
-        y_pred_lbl = le.inverse_transform(y_pred)
-
-        metrics = {
-            "model": name,
-            "best_params": search.best_params_,
-            "accuracy": round(acc, 4),
-            "f1_macro": round(f1m, 4),
-            "report": classification_report(y_test_lbl, y_pred_lbl, output_dict=True),
-            "classes": le.classes_.tolist()
-        }
+        # === MLflow logging ===
+        with mlflow.start_run(run_name=name):
+            mlflow.log_params(search.best_params_)
+            mlflow.log_metric("accuracy", acc)
+            mlflow.log_metric("f1_macro", f1m)
+            mlflow.sklearn.log_model(search.best_estimator_, "model")
+            mlflow.log_dict(report, "classification_report.json")
 
         if best_metrics is None or f1m > best_metrics["f1_macro"]:
-            best_name, best_pipe, best_metrics = name, search.best_estimator_, metrics
+            best_model = search.best_estimator_
+            best_metrics = {
+                "model": name,
+                "best_params": search.best_params_,
+                "accuracy": round(acc, 4),
+                "f1_macro": round(f1m, 4),
+                "report": report,
+                "classes": le.classes_.tolist()
+            }
 
-    bundle = {"model": best_pipe, "label_encoder": le}
+    bundle = {"model": best_model, "label_encoder": le}
     joblib.dump(bundle, MODEL_PATH)
-
     with open(METRICS_JSON, "w", encoding="utf-8") as f:
         json.dump(best_metrics, f, indent=2, ensure_ascii=False)
 
-    print(f"✅ Mejor modelo: {best_name} guardado en {MODEL_PATH}")
+    print(f" Modelo {best_metrics['model']} guardado en {MODEL_PATH}")
+    print(" Métricas registradas en MLflow (carpeta ./mlruns)")
 
 if __name__ == "__main__":
     main()

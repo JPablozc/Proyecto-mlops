@@ -7,43 +7,43 @@
   "accuracy": 0.9856,
   "f1_macro": 0.9853,
   "report": {
-    "Insufficient_Weight": {
+    "0": {
       "precision": 1.0,
       "recall": 0.9811320754716981,
       "f1-score": 0.9904761904761905,
       "support": 53.0
     },
-    "Normal_Weight": {
+    "1": {
       "precision": 0.9827586206896551,
       "recall": 1.0,
       "f1-score": 0.991304347826087,
       "support": 57.0
     },
-    "Obesity_Type_I": {
+    "2": {
       "precision": 1.0,
       "recall": 0.9857142857142858,
       "f1-score": 0.9928057553956835,
       "support": 70.0
     },
-    "Obesity_Type_II": {
+    "3": {
       "precision": 0.967741935483871,
       "recall": 1.0,
       "f1-score": 0.9836065573770492,
       "support": 60.0
     },
-    "Obesity_Type_III": {
+    "4": {
       "precision": 1.0,
       "recall": 0.9846153846153847,
       "f1-score": 0.9922480620155039,
       "support": 65.0
     },
-    "Overweight_Level_I": {
+    "5": {
       "precision": 1.0,
       "recall": 0.9454545454545454,
       "f1-score": 0.9719626168224299,
       "support": 55.0
     },
-    "Overweight_Level_II": {
+    "6": {
       "precision": 0.9508196721311475,
       "recall": 1.0,
       "f1-score": 0.9747899159663865,

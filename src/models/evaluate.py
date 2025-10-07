@@ -29,7 +29,7 @@ def main():
     disp.plot(ax=ax, xticks_rotation=45, colorbar=False)
     plt.tight_layout()
     fig.savefig(CONF_MATRIX_PNG, dpi=150)
-    print(f"🖼️ Matriz de confusión guardada en {CONF_MATRIX_PNG}")
+    print(f" Matriz de confusión guardada en {CONF_MATRIX_PNG}")
 
 if __name__ == "__main__":
     main()

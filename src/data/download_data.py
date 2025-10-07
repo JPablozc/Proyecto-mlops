@@ -10,8 +10,8 @@ from src.utils import ensure_dirs
 def main() -> None:
     ensure_dirs(RAW_CSV.parent)
     df = pd.read_csv(RAW_CSV)
-    print(f"✅ Datos encontrados en {RAW_CSV} con forma {df.shape}")
-    print(f"📊 Columnas: {list(df.columns)}")
+    print(f"[OK] Datos encontrados en {RAW_CSV} con forma {df.shape}")
+    print(f"Columnas: {list(df.columns)}")
 
 if __name__ == "__main__":
     main()

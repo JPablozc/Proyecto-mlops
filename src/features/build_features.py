@@ -13,7 +13,7 @@ def main() -> None:
         df["BMI"] = df["Weight"] / (df["Height"] ** 2)
 
     df.to_csv(PROCESSED_CSV, index=False)
-    print(f"✅ Features construidas y guardadas en {PROCESSED_CSV}; columnas: {list(df.columns)}")
+    print(f"Features construidas y guardadas en {PROCESSED_CSV}; columnas: {list(df.columns)}")
 
 if __name__ == "__main__":
     main()

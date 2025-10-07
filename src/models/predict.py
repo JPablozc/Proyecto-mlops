@@ -23,7 +23,7 @@ def main():
     out = X.copy()
     out["prediction"] = preds_lbl
     out.to_csv(args.output, index=False)
-    print(f"✅ Predicciones guardadas en {args.output}")
+    print(f" Predicciones guardadas en {args.output}")
 
 if __name__ == "__main__":
     main()

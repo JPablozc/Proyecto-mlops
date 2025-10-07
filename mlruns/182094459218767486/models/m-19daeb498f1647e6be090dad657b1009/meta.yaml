@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/juanp/Proyecto-mlops/mlruns/182094459218767486/models/m-19daeb498f1647e6be090dad657b1009/artifacts
+creation_timestamp: 1759803166259
+experiment_id: '182094459218767486'
+last_updated_timestamp: 1759803170757
+model_id: m-19daeb498f1647e6be090dad657b1009
+model_type: null
+name: model
+source_run_id: add0115c6964460c85a754b3e3e8c83d
+status: 2
+status_message: null

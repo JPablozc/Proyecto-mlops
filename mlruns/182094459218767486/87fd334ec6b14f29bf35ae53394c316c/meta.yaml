@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/juanp/Proyecto-mlops/mlruns/182094459218767486/87fd334ec6b14f29bf35ae53394c316c/artifacts
+end_time: 1759802796226
+entry_point_name: ''
+experiment_id: '182094459218767486'
+lifecycle_stage: active
+run_id: 87fd334ec6b14f29bf35ae53394c316c
+run_name: rf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759802791765
+status: 3
+tags: []
+user_id: juanp

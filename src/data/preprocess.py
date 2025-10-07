@@ -31,7 +31,7 @@ def main() -> None:
 
     # Guardar en CSV
     df.to_csv(PROCESSED_CSV, index=False)
-    print(f"✅ Preprocesado guardado en {PROCESSED_CSV} con forma {df.shape}")
+    print(f" Preprocesado guardado en {PROCESSED_CSV} con forma {df.shape}")
 
 if __name__ == "__main__":
     main()
